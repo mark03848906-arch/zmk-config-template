@@ -1,1 +1,38 @@
+#include <dt-bindings/zmk/matrix_transform.h>
 
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout0;
+    };
+
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";  // 1단계에서 확인한 방향으로
+        col-gpios
+            = <&pro_micro 15 GPIO_ACTIVE_HIGH>   // col 0
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>   // col 1
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>;  // col 2
+        row-gpios
+            = <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // row 0
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // row 1
+            , <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; // row 2
+    };
+
+    default_transform: keymap_transform0 {
+        compatible = "zmk,matrix-transform";
+        columns = <3>;
+        rows = <3>;
+        map = <
+            RC(0,0) RC(0,1) RC(0,2)
+            RC(1,0) RC(1,1) RC(1,2)
+            RC(2,0) RC(2,1) RC(2,2)
+        >;
+    };
+
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+        transform = <&default_transform>;
+    };
+};
