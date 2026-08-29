@@ -1,6 +1,6 @@
 if SHIELD_MY_KEYBOARD
 
 config ZMK_KEYBOARD_NAME
-    default "My Keyboard"   # 16자 미만
+    default "pis38"   # 16자 미만
 
 endif
