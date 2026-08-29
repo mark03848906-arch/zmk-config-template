@@ -1,4 +1,4 @@
-if SHIELD_MY_KEYBOARD
+if SHIELD_PIS38
 
 config ZMK_KEYBOARD_NAME
     default "pis38"   # 16자 미만
