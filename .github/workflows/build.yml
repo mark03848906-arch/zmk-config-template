@@ -1,49 +1,5 @@
-on: [push, pull_request, workflow_dispatch]
-
 name: Build
-
+on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: zmkfirmware/zmk-build-arm:2.5
-    name: Build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cache west modules
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-zephyr-modules
-        with:
-          path: |
-            modules/
-            tools/
-            zephyr/
-            bootloader/
-            zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: West Init
-        run: west init -l config
-      - name: West Update
-        run: west update
-      - name: West Zephyr export
-        run: west zephyr-export
-      - name: West Build (Pis38)
-        run: west build -s zmk/app -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD=pis38 -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" -DCONFIG_ZMK_STUDIO=y
-      - name: Pis38 DTS File
-        if: ${{ always() }}
-        run: cat -n build/zephyr/nice_nano_v2.dts.pre.tmp
-      - name: Pis38 Kconfig file
-        run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
-      - name: Rename zmk.uf2
-        run: cp build/zephyr/zmk.uf2 pis38_nice_nano_v2.uf2
-      - name: Archive (Pis38)
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware
-          path: pis38_nice_nano_v2.uf2
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
