@@ -20,7 +20,7 @@
             , <&pro_micro 14 GPIO_ACTIVE_HIGH>   // col 6 = D14
             , <&pro_micro 15 GPIO_ACTIVE_HIGH>   // col 7 = D15
             , <&pro_micro 18 GPIO_ACTIVE_HIGH>   // col 8 = D18
-            , <&pro_micro 19 GPIO_ACTIVE_HIGH>;  // col 9 = D19
+            , <&pro_micro 19 GPIO_ACTIVE_HIGH>  // col 9 = D19
             , <&pro_micro 20 GPIO_ACTIVE_HIGH>;  // col 9 = D19
         row-gpios
             = <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // row 0 = D20
@@ -73,23 +73,5 @@
             , <&key_physical_attrs 100 100  800 200 0 0 0>
             , <&key_physical_attrs 100 100  900 200 0 0 0>
 ;
-    };
-};
-
-&pro_micro_i2c {
-    status = "okay";
-
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
-        reg = <0x3d>;
-        width = <128>;
-        height = <32>;
-        segment-offset = <0>;
-        page-offset = <0>;
-        display-offset = <0>;
-        multiplex-ratio = <31>;
-        segment-remap;
-        com-invdir;
-        prechargep = <0x22>;
     };
 };
